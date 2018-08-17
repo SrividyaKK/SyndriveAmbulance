@@ -4,11 +4,14 @@ import android.content.Context;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Button;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity {
+
+    Button btnLogin, btnRegister;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -30,7 +33,8 @@ public class MainActivity extends AppCompatActivity {
     } // end of onCreate
 
     private void setupUIViews() {
-
+        btnLogin = findViewById(R.id.btnLogin);
+        btnRegister = findViewById(R.id.btnRegister);
     }
 
 } // end of MainActivity
