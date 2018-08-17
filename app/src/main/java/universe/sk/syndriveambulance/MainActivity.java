@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //Before setContentView
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                                                .setDefaultFontPath("fonts/Arkip_font.ttf")
+                                                .setDefaultFontPath("fonts/Arkhip_font.ttf")
                                                 .setFontAttrId(R.attr.fontPath)
                                                 .build());
         setContentView(R.layout.activity_main);
