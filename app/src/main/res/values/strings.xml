@@ -10,4 +10,5 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="hint_btn_register">Register</string>
     <string name="existing_login">Already an existing member? Login</string>
+    <string name="phone">Phone Number</string>
 </resources>
