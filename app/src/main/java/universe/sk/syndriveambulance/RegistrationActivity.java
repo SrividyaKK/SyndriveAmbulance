@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 public class RegistrationActivity extends AppCompatActivity {
 
-    private EditText etName, etEmailsign, etPassign, etConfirmPassign, etPhone, etDate;
+    private EditText etName, etEmailsign, etPassign, etConfirmPassign, etPhone;
     TextView tvExist;
     private Button btn_register;
 
@@ -38,7 +38,6 @@ public class RegistrationActivity extends AppCompatActivity {
         etEmailsign = findViewById(R.id.etEmailsign);
         etPassign = findViewById(R.id.etPassign);
         etConfirmPassign = findViewById(R.id.etConfirmPassign);
-        etDate = findViewById(R.id.etDate);
         etPhone = findViewById(R.id.etPhone);
         tvExist = findViewById(R.id.tvExist);
         btn_register = findViewById(R.id.btn_register);

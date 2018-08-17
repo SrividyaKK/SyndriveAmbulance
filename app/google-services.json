@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "195698598481",
+    "firebase_url": "https://syndrive-ambulance.firebaseio.com",
+    "project_id": "syndrive-ambulance",
+    "storage_bucket": "syndrive-ambulance.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:195698598481:android:bd21a8f37b5f12ea",
+        "android_client_info": {
+          "package_name": "universe.sk.syndriveambulance"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "195698598481-2ge0vevctjkt713o4n10cnq0kun5rru3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "universe.sk.syndriveambulance",
+            "certificate_hash": "a162d5d3b64e90c31ac81cc93600dc96442adbf3"
+          }
+        },
+        {
+          "client_id": "195698598481-iauigkgusj6bhatcm8crufbnh1hck3u3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdt9pfC58TUdC7nMYQs8lupVYKaD67rcQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "195698598481-iauigkgusj6bhatcm8crufbnh1hck3u3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
