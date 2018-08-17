@@ -3,4 +3,10 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="green">#005600</color>
+    <color name="red">#D10202</color>
+    <color name="black">#000000</color>
+    <color name="fab_background">#FFEA03</color>
+    <color name="divider">#BDBDBD</color>
+    <color name="scrollbar">#546E7A</color>
 </resources>
