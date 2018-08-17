@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <!--<color name="colorPrimary">#3F51B5</color>-->
+    <!--<color name="colorPrimaryDark">#303F9F</color>-->
+    <!--<color name="colorAccent">#FF4081</color>-->
+    <color name="colorPrimary">#4CAF50</color>
+    <color name="colorPrimaryDark">#2E7D32</color>
+    <color name="colorAccent">#40C4FF</color>
     <color name="green">#005600</color>
     <color name="red">#D10202</color>
     <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
     <color name="fab_background">#FFEA03</color>
     <color name="divider">#BDBDBD</color>
     <color name="scrollbar">#546E7A</color>
+
+    <color name="bottomText">#6B6B76</color>
+    <color name="rippleEffectColor">#F816A463</color>
+    <color name="btnSignIn">#1FBAD6</color>
+    <color name="btnRegister">#83838C</color>
 </resources>
