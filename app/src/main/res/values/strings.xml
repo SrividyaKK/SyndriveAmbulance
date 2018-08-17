@@ -5,4 +5,9 @@
     <string name="btn_login">Login</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="new_user">New User? Sign Up</string>
+    <string name="user_name">Name</string>
+    <string name="date_of_birth">Date of Birth</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="hint_btn_register">Register</string>
+    <string name="existing_login">Already an existing member? Login</string>
 </resources>
