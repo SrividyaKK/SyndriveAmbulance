@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -75,6 +77,11 @@ public class MainActivity extends AppCompatActivity {
         etConfirmPassword = register_layout.findViewById(R.id.etConfirmPassword);
 
         dialog.setView(register_layout);
+        final String name, email, password, phone;
+        name = etName.getText().toString().trim();
+        email = etEmail.getText().toString().trim();
+        password = etPassword.getText().toString().trim();
+        phone = etPhone.getText().toString().trim();
 
         //Set buttons
         dialog.setPositiveButton("Register", new DialogInterface.OnClickListener() {
@@ -83,32 +90,43 @@ public class MainActivity extends AppCompatActivity {
                 dialog.dismiss();
 
                 // Check validation
-                if (TextUtils.isEmpty(etName.getText().toString())) {
+                if (TextUtils.isEmpty(name)) {
                     Snackbar.make(rootLayout, "Please enter your Name", Snackbar.LENGTH_SHORT).show();
                     return;
                 }
-                if (TextUtils.isEmpty(etEmail.getText().toString())) {
+                if (TextUtils.isEmpty(email)) {
                     Snackbar.make(rootLayout, "Please enter your Email Address", Snackbar.LENGTH_SHORT).show();
                     return;
                 }
-                if (TextUtils.isEmpty(etPhone.getText().toString())) {
+                if (TextUtils.isEmpty(phone)) {
                     Snackbar.make(rootLayout, "Please enter your Phone Number", Snackbar.LENGTH_SHORT).show();
                     return;
                 }
-                if (TextUtils.isEmpty(etPassword.getText().toString())) {
+                if (TextUtils.isEmpty(password)) {
                     Snackbar.make(rootLayout, "Please enter your Password", Snackbar.LENGTH_SHORT).show();
                     return;
                 }
-                if (TextUtils.isEmpty(etConfirmPassword.getText().toString())) {
+                if (TextUtils.isEmpty(etConfirmPassword.getText().toString().trim()) ) {
                     Snackbar.make(rootLayout, "Please confirm your Password", Snackbar.LENGTH_SHORT).show();
                     return;
                 }
-                if (etPassword.getText().toString().length() < 8) {
+                if (password.length() < 8) {
                    Snackbar.make(rootLayout, "Min 8 char required in password", Snackbar.LENGTH_SHORT).show();
+                   return;
                 }
-                if (!etPassword.getText().toString().equals(etConfirmPassword.getText().toString()) ) {
+                if (!password.equals(etConfirmPassword.getText().toString()) ) {
                     Snackbar.make(rootLayout, "Confirm password doesn't match Password", Snackbar.LENGTH_SHORT).show();
+                    return;
                 }
+
+                //Register new User
+                auth.createUserWithEmailAndPassword(email, password)
+                        .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                            @Override
+                            public void onSuccess(AuthResult authResult) {
+                                //Save user to db
+                            }
+                        });
             }
         });
 
