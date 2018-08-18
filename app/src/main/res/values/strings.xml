@@ -14,4 +14,5 @@
     <string name="existing_login">Already an existing member? Login</string>
     <string name="phone">Phone</string>
     <string name="looking_for_sos_app">Looking for the SOS App?</string>
+    <string name="title_activity_welcome">Map</string>
 </resources>

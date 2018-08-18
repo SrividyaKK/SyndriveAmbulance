@@ -20,6 +20,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.rengwuxian.materialedittext.MaterialEditText;
+
+import dmax.dialog.SpotsDialog;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import universe.sk.syndriveambulance.Model.User;
@@ -202,6 +204,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
 
+                // Disable SignIn Button if processing
+                btnLogin.setEnabled(false);
+
                 startActivity(new Intent(MainActivity.this, WelcomeActivity.class));
 
                 // Check validation
@@ -214,18 +219,26 @@ public class MainActivity extends AppCompatActivity {
 //                    return;
 //                }
 
+                //final AlertDialog waitingDialog = new SpotsDialog(MainActivity.this);
+                //waitingDialog.show();
+
                 // Login
 //                auth.signInWithEmailAndPassword(email, password)
 //                        .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
 //                            @Override
 //                            public void onSuccess(AuthResult authResult) {
+//                                waitingDialog.dismiss();
 //                                startActivity(new Intent(MainActivity.this, WelcomeActivity.class));
+//                                finish();
 //                            }
 //                        })
 //                        .addOnFailureListener(new OnFailureListener() {
 //                            @Override
 //                            public void onFailure(@NonNull Exception e) {
+//                                waitingDialog.dismiss();
 //                                Snackbar.make(rootLayout, "Failed " + e.getMessage(), Snackbar.LENGTH_SHORT).show();
+//                         //Activate SignIn Button
+//                          btnLogin.setEnabled(true);
 //                            }
 //                        });
             }
