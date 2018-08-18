@@ -44,9 +44,10 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
+                                      <entry key="assetType" value="IMAGE" />
                                       <entry key="iconShape" value="NONE" />
-                                      <entry key="imageAsset" value="C:\Users\srivi\Documents\HACKATHON-MECLABS-2018\Pics\ambulance-bg.jpg" />
-                                      <entry key="outputName" value="background" />
+                                      <entry key="imageAsset" value="C:\Users\srivi\Documents\HACKATHON-MECLABS-2018\Pics\Ambulance\icon5.png" />
+                                      <entry key="outputName" value="icon5" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -56,7 +57,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputIconType" value="ACTIONBAR" />
+                            <entry key="outputIconType" value="LAUNCHER_LEGACY" />
                           </map>
                         </option>
                       </PersistentState>
