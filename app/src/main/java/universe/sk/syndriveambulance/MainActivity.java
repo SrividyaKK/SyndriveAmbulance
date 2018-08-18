@@ -97,72 +97,73 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+                startActivity(new Intent(MainActivity.this, WelcomeActivity.class));
 
                 // Check validation
-                if (TextUtils.isEmpty(etName.getText().toString().trim())) {
-                    Snackbar.make(rootLayout, "Please enter your Name", Snackbar.LENGTH_SHORT).show();
-                    return;
-                }
-                if (TextUtils.isEmpty(etEmail.getText().toString().trim())) {
-                    Snackbar.make(rootLayout, "Please enter your Email Address", Snackbar.LENGTH_SHORT).show();
-                    return;
-                }
-                if (TextUtils.isEmpty(etPhone.getText().toString().trim())) {
-                    Snackbar.make(rootLayout, "Please enter your Phone Number", Snackbar.LENGTH_SHORT).show();
-                    return;
-                }
-                if (TextUtils.isEmpty(etPassword.getText().toString().trim())) {
-                    Snackbar.make(rootLayout, "Please enter your Password", Snackbar.LENGTH_SHORT).show();
-                    return;
-                }
-                if (TextUtils.isEmpty(etConfirmPassword.getText().toString().trim()) ) {
-                    Snackbar.make(rootLayout, "Please confirm your Password", Snackbar.LENGTH_SHORT).show();
-                    return;
-                }
-                /*if (password.length() < 8) {
-                   Snackbar.make(rootLayout, "Min 8 char required in password", Snackbar.LENGTH_SHORT).show();
-                   return;
-                }*/
-                if (!password.equals(confirmpass)) {
-                    Snackbar.make(rootLayout, "Confirm password doesn't match Password", Snackbar.LENGTH_SHORT).show();
-                    return;
-                }
+//                if (TextUtils.isEmpty(etName.getText().toString().trim())) {
+//                    Snackbar.make(rootLayout, "Please enter your Name", Snackbar.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                if (TextUtils.isEmpty(etEmail.getText().toString().trim())) {
+//                    Snackbar.make(rootLayout, "Please enter your Email Address", Snackbar.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                if (TextUtils.isEmpty(etPhone.getText().toString().trim())) {
+//                    Snackbar.make(rootLayout, "Please enter your Phone Number", Snackbar.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                if (TextUtils.isEmpty(etPassword.getText().toString().trim())) {
+//                    Snackbar.make(rootLayout, "Please enter your Password", Snackbar.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                if (TextUtils.isEmpty(etConfirmPassword.getText().toString().trim()) ) {
+//                    Snackbar.make(rootLayout, "Please confirm your Password", Snackbar.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                //if (password.length() < 8) {
+//                //   Snackbar.make(rootLayout, "Min 8 char required in password", Snackbar.LENGTH_SHORT).show();
+//                //   return;
+//                //}
+//                if (!password.equals(confirmpass)) {
+//                    Snackbar.make(rootLayout, "Confirm password doesn't match Password", Snackbar.LENGTH_SHORT).show();
+//                    return;
+//                }
 
                 //Register new User
-                auth.createUserWithEmailAndPassword(email, password)
-                        .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                            @Override
-                            public void onSuccess(AuthResult authResult) {
-                                //Save user to db
-                                User user = new User();
-                                user.setEmail(email);
-                                user.setName(name);
-                                user.setPassword(password);
-                                user.setPhone(phone);
-
-                                // use email as key
-                                users.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                        .setValue(user)
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-                                                Snackbar.make(rootLayout, "Registered successfully", Snackbar.LENGTH_SHORT).show();
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Snackbar.make(rootLayout, "Failed " + e.getMessage(), Snackbar.LENGTH_SHORT).show();
-                                            }
-                                        });
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Snackbar.make(rootLayout, "Failed " + e.getMessage(), Snackbar.LENGTH_SHORT).show();
-                            }
-                        });
+//                auth.createUserWithEmailAndPassword(email, password)
+//                        .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+//                            @Override
+//                            public void onSuccess(AuthResult authResult) {
+//                                //Save user to db
+//                                User user = new User();
+//                                user.setEmail(email);
+//                                user.setName(name);
+//                                user.setPassword(password);
+//                                user.setPhone(phone);
+//
+//                                // use email as key
+//                                users.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+//                                        .setValue(user)
+//                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                            @Override
+//                                            public void onSuccess(Void aVoid) {
+//                                                Snackbar.make(rootLayout, "Registered successfully", Snackbar.LENGTH_SHORT).show();
+//                                            }
+//                                        })
+//                                        .addOnFailureListener(new OnFailureListener() {
+//                                            @Override
+//                                            public void onFailure(@NonNull Exception e) {
+//                                                Snackbar.make(rootLayout, "Failed " + e.getMessage(), Snackbar.LENGTH_SHORT).show();
+//                                            }
+//                                        });
+//                            }
+//                        })
+//                        .addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                Snackbar.make(rootLayout, "Failed " + e.getMessage(), Snackbar.LENGTH_SHORT).show();
+//                            }
+//                        });
             }
         });
 
@@ -201,30 +202,32 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
 
+                startActivity(new Intent(MainActivity.this, WelcomeActivity.class));
+
                 // Check validation
-                if (TextUtils.isEmpty(email)) {
-                    Snackbar.make(rootLayout, "Please enter your Email Address", Snackbar.LENGTH_SHORT).show();
-                    return;
-                }
-                if (TextUtils.isEmpty(password)) {
-                    Snackbar.make(rootLayout, "Please enter your Password", Snackbar.LENGTH_SHORT).show();
-                    return;
-                }
+//                if (TextUtils.isEmpty(email)) {
+//                    Snackbar.make(rootLayout, "Please enter your Email Address", Snackbar.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                if (TextUtils.isEmpty(password)) {
+//                    Snackbar.make(rootLayout, "Please enter your Password", Snackbar.LENGTH_SHORT).show();
+//                    return;
+//                }
 
                 // Login
-                auth.signInWithEmailAndPassword(email, password)
-                        .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                            @Override
-                            public void onSuccess(AuthResult authResult) {
-                                startActivity(new Intent(MainActivity.this, WelcomeActivity.class));
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Snackbar.make(rootLayout, "Failed " + e.getMessage(), Snackbar.LENGTH_SHORT).show();
-                            }
-                        });
+//                auth.signInWithEmailAndPassword(email, password)
+//                        .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+//                            @Override
+//                            public void onSuccess(AuthResult authResult) {
+//                                startActivity(new Intent(MainActivity.this, WelcomeActivity.class));
+//                            }
+//                        })
+//                        .addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                Snackbar.make(rootLayout, "Failed " + e.getMessage(), Snackbar.LENGTH_SHORT).show();
+//                            }
+//                        });
             }
         });
 
