@@ -14,11 +14,14 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
+import android.widget.Toast;
 
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
 import com.github.glomadrian.materialanimatedswitch.MaterialAnimatedSwitch;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -37,6 +40,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -51,7 +55,7 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
     private static final int PLAY_SERVICE_RES_REQUEST = 7001;
 
     private LocationRequest mLocationRequest;
-    //private GoogleApiClient mGoogleApiClient;
+    private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
     private LocationCallback mLocationCallback;
     FusedLocationProviderClient mFusedLocationClient;
@@ -93,6 +97,12 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
                 }
             }
         });
+
+        // GeoFire
+        drivers = FirebaseDatabase.getInstance().getReference("Drivers");
+        geoFire = new GeoFire(drivers);
+
+        setupLocation();
 
         try {
             mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -151,6 +161,50 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
         }
 
     } // end of onCreate
+
+    private void setupLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
+            // request permission in runtime
+            ActivityCompat.requestPermissions(this, new String[] {
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+            }, MY_PERMISSION_REQUEST_CODE);
+        }
+        else {
+            if (checkPlayServices()) {
+                buildGoogleApiClient();
+                createLocationRequest();
+                if (locationSwitch.isChecked()) {
+                    displayLocation();
+                }
+            }
+        }
+    }
+
+    private void createLocationRequest() {
+
+    }
+
+    private void buildGoogleApiClient() {
+        
+    }
+
+    private boolean checkPlayServices() {
+        int resultCode = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (GoogleApiAvailability.getInstance().isUserResolvableError(resultCode))
+                GoogleApiAvailability.getInstance().getErrorDialog(this, resultCode, PLAY_SERVICE_RES_REQUEST).show();
+            else {
+                Toast.makeText(this, "This device is not supported", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+            return false;
+        }
+        return true;
+    }
 
     private void rotateMarker(final Marker mCurrent, float i, GoogleMap mMap) {
         final Handler handler = new Handler();
@@ -219,7 +273,8 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
 
     @Override
     public void onLocationChanged(Location location) {
-
+        mLastLocation = location;
+        displayLocation();
     }
 
     @Override
@@ -239,16 +294,18 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-
+        displayLocation();
+        startLocationUpdates();
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-
+        mGoogleApiClient.connect();
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
+
 } // end of WelcomeActivity
