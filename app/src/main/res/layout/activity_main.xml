@@ -22,7 +22,6 @@
         android:textColor="@color/white"
         android:textSize="36sp"
         android:text="@string/syndrive"
-        android:fontFamily="sans-serif-smallcaps"
         android:textAlignment="center"
         />
         <TextView
