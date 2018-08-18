@@ -189,7 +189,7 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
     }
 
     private void buildGoogleApiClient() {
-        
+
     }
 
     private boolean checkPlayServices() {
@@ -206,7 +206,7 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
         return true;
     }
 
-    private void rotateMarker(final Marker mCurrent, float i, GoogleMap mMap) {
+    private void rotateMarker(final Marker mCurrent, final float i, GoogleMap mMap) {
         final Handler handler = new Handler();
         final long start = SystemClock.uptimeMillis();
         final float startRotation = mCurrent.getRotation();
