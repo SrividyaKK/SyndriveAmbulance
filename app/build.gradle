@@ -29,7 +29,7 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     implementation 'com.google.android.gms:play-services-maps:15.0.1'
     //implementation 'com.google.android.gms:play-services:15.0.1'
-    //implementation 'com.google.android.gms:play-services-location:15.0.1'
+    implementation 'com.google.android.gms:play-services-location:15.0.1'
     //implementation 'com.google.android.gms:play-services-auth:15.0.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
@@ -38,11 +38,13 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.android.support:cardview-v7:27.1.1'
     implementation 'com.rengwuxian.materialedittext:library:2.1.4'
+    implementation 'com.github.glomadrian:MaterialAnimatedSwitch:1.1@aar'
     implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
     implementation 'com.github.d-max:spots-dialog:1.1@aar'
     implementation 'com.google.firebase:firebase-core:16.0.1'
     implementation 'com.google.firebase:firebase-database:16.0.1'
     implementation 'com.google.firebase:firebase-auth:16.0.2'
+    implementation 'com.firebase:geofire-android:2.3.1' //geofire - firebase geolocation service
 }
 
 apply plugin: 'com.google.gms.google-services'
