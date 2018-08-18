@@ -1,29 +1,206 @@
 package universe.sk.syndriveambulance;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.os.Handler;
+import android.os.SystemClock;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.animation.Interpolator;
+import android.view.animation.LinearInterpolator;
 
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
+import com.github.glomadrian.materialanimatedswitch.MaterialAnimatedSwitch;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 
-public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallback {
+public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallback,
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,
+        LocationListener
+{
 
     private GoogleMap mMap;
+
+    // Play services
+    private static final int MY_PERMISSION_REQUEST_CODE = 7000;
+    private static final int PLAY_SERVICE_RES_REQUEST = 7001;
+
+    private LocationRequest mLocationRequest;
+    //private GoogleApiClient mGoogleApiClient;
+    private Location mLastLocation;
+    private LocationCallback mLocationCallback;
+    FusedLocationProviderClient mFusedLocationClient;
+
+    private static int UPDATE_INTERVAL = 5000;
+    private static int FASTEST_INTERVAL = 3000;
+    private static int DISPLACEMENT = 10;
+
+    DatabaseReference drivers;
+    GeoFire geoFire;
+
+    Marker mCurrent;
+    MaterialAnimatedSwitch locationSwitch;
+    SupportMapFragment mapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        // Init views
+        locationSwitch = findViewById(R.id.locationSwitch);
+        locationSwitch.setOnCheckedChangeListener(new MaterialAnimatedSwitch.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(boolean isOnline) {
+                if (isOnline) {
+                    startLocationUpdates();
+                    displayLocation();
+                    Snackbar.make(mapFragment.getView(), "You are online", Snackbar.LENGTH_SHORT).show();
+                }
+                else {
+                    stopLocationUpdates();
+                    mCurrent.remove();
+                    Snackbar.make(mapFragment.getView(), "You are offline", Snackbar.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        try {
+            mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+            mFusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            // Got last known location. In some rare situations this can be null.
+                            if (location != null) {
+                                // Logic to handle location object
+                                if (locationSwitch.isChecked()) {
+                                    final double latitude = mLastLocation.getLatitude();
+                                    final double longitude = mLastLocation.getLongitude();
+
+                                    //Update in firebase
+                                    geoFire.setLocation(FirebaseAuth.getInstance().getCurrentUser().getUid(),
+                                            new GeoLocation(latitude, longitude), new GeoFire.CompletionListener() {
+                                                @Override
+                                                public void onComplete(String key, DatabaseError error) {
+                                                    // Add Marker
+                                                    if (mCurrent != null)
+                                                        mCurrent.remove(); //remove existing marker
+                                                    mCurrent = mMap.addMarker(new MarkerOptions()
+                                                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.car))
+                                                                        .position(new LatLng(latitude, longitude))
+                                                                        .title("You"));
+
+                                                    //Move camera to this position
+                                                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
+                                                            new LatLng(latitude, longitude), 15.0f
+                                                    ));
+                                                    // Draw animation rotate marker
+                                                    rotateMarker(mCurrent, -360, mMap);
+                                                }
+                                            });
+                                }
+                            }
+                        }
+                    });
+            mLocationRequest = LocationRequest.create();
+            mLocationRequest.setInterval(UPDATE_INTERVAL);
+            mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
+
+            mLocationCallback = new LocationCallback() {
+                @Override
+                public void onLocationResult(LocationResult locationResult) {
+                    for (Location location : locationResult.getLocations()) {
+                        // Complete this
+                    }
+                }
+            };
+        } catch (SecurityException ex) {
+            ex.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    } // end of onCreate
+
+    private void rotateMarker(final Marker mCurrent, float i, GoogleMap mMap) {
+        final Handler handler = new Handler();
+        final long start = SystemClock.uptimeMillis();
+        final float startRotation = mCurrent.getRotation();
+        final long duration = 1500;
+
+        final Interpolator interpolator = new LinearInterpolator();
+
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                long elapsed = SystemClock.uptimeMillis() - start;
+                float t = interpolator.getInterpolation((float) elapsed/duration);
+                float rot = t*i + (1-t)*startRotation;
+                mCurrent.setRotation(-rot>180 ? rot/2: rot);
+                if (t<1.0) {
+                    handler.postDelayed(this, 16);
+                }
+            }
+        });
     }
 
+    private void startLocationUpdates() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
+            // request permissions if not granted
+            return;
+        }
+
+        mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, null);
+
+    } // end of startLocationUpdates
+
+    private void stopLocationUpdates() {
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+//                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
+//                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+//        {
+//            return;
+//        }
+
+        mFusedLocationClient.removeLocationUpdates(mLocationCallback);
+    }
+
+    private void displayLocation() {
+
+    }
 
     /**
      * Manipulates the map once available.
@@ -39,4 +216,39 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
         mMap = googleMap;
 
     }
-}
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+} // end of WelcomeActivity
