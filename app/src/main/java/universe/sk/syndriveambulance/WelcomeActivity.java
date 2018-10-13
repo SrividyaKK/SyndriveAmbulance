@@ -113,32 +113,7 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
                             // Got last known location. In some rare situations this can be null.
                             if (location != null) {
                                 // Logic to handle location object
-                                if (locationSwitch.isChecked()) {
-                                    final double latitude = mLastLocation.getLatitude();
-                                    final double longitude = mLastLocation.getLongitude();
 
-                                    //Update in firebase
-                                    geoFire.setLocation(FirebaseAuth.getInstance().getCurrentUser().getUid(),
-                                            new GeoLocation(latitude, longitude), new GeoFire.CompletionListener() {
-                                                @Override
-                                                public void onComplete(String key, DatabaseError error) {
-                                                    // Add Marker
-                                                    if (mCurrent != null)
-                                                        mCurrent.remove(); //remove existing marker
-                                                    mCurrent = mMap.addMarker(new MarkerOptions()
-                                                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.car))
-                                                                        .position(new LatLng(latitude, longitude))
-                                                                        .title("You"));
-
-                                                    //Move camera to this position
-                                                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
-                                                            new LatLng(latitude, longitude), 15.0f
-                                                    ));
-                                                    // Draw animation rotate marker
-                                                    rotateMarker(mCurrent, -360, mMap);
-                                                }
-                                            });
-                                }
                             }
                         }
                     });
@@ -163,25 +138,7 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
     } // end of onCreate
 
     private void setupLocation() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-        {
-            // request permission in runtime
-            ActivityCompat.requestPermissions(this, new String[] {
-                    Manifest.permission.ACCESS_COARSE_LOCATION,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-            }, MY_PERMISSION_REQUEST_CODE);
-        }
-        else {
-            if (checkPlayServices()) {
-                buildGoogleApiClient();
-                createLocationRequest();
-                if (locationSwitch.isChecked()) {
-                    displayLocation();
-                }
-            }
-        }
+
     }
 
     private void createLocationRequest() {
@@ -233,8 +190,20 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
                 != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
         {
-            // request permissions if not granted
-            return;
+            // request permission in runtime
+            ActivityCompat.requestPermissions(this, new String[] {
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+            }, MY_PERMISSION_REQUEST_CODE);
+        }
+        else {
+            if (checkPlayServices()) {
+                buildGoogleApiClient();
+                createLocationRequest();
+                if (locationSwitch.isChecked()) {
+                    displayLocation();
+                }
+            }
         }
 
         mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, null);
@@ -242,18 +211,52 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
     } // end of startLocationUpdates
 
     private void stopLocationUpdates() {
-//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-//                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
-//                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-//        {
-//            return;
-//        }
-
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
+            return;
+        }
         mFusedLocationClient.removeLocationUpdates(mLocationCallback);
     }
 
     private void displayLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
+            return;
+        }
+//        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (mLastLocation != null) {
+            if (locationSwitch.isChecked()) {
+                final double latitude = mLastLocation.getLatitude();
+                final double longitude = mLastLocation.getLongitude();
 
+                //Update in firebase
+                geoFire.setLocation(FirebaseAuth.getInstance().getCurrentUser().getUid(),
+                        new GeoLocation(latitude, longitude), new GeoFire.CompletionListener() {
+                            @Override
+                            public void onComplete(String key, DatabaseError error) {
+                                // Add Marker
+                                if (mCurrent != null)
+                                    mCurrent.remove(); //remove existing marker
+                                mCurrent = mMap.addMarker(new MarkerOptions()
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.car))
+                                        .position(new LatLng(latitude, longitude))
+                                        .title("You"));
+
+                                //Move camera to this position
+                                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
+                                        new LatLng(latitude, longitude), 15.0f
+                                ));
+                                // Draw animation rotate marker
+                                rotateMarker(mCurrent, -360, mMap);
+                            }
+                        });
+            }
+        }
     }
 
     /**
