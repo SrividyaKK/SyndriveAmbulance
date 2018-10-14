@@ -16,4 +16,6 @@
     <string name="looking_for_sos_app">Looking for the SOS App?</string>
     <string name="title_activity_welcome">Map</string>
     <string name="find_user">Find User</string>
+    <string name="enter_pickup">Enter Pickup Location</string>
+    <string name="go">Go</string>
 </resources>
