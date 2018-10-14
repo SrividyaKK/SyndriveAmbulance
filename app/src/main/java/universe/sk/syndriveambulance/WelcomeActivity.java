@@ -204,7 +204,7 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
                     displayLocation();
                 }
             }*/
-            LocationServices.FusedLocationApi.requestLocationUpdates(GoogleApiClient, mLocationRequest, this);
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, (com.google.android.gms.location.LocationListener) this);
         }
 
 //        mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, null);
@@ -219,7 +219,7 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
             return;
         }
 //        mFusedLocationClient.removeLocationUpdates(mLocationCallback);
-        LocationServices.FusedLocationApi.removeLocationUpdates(GoogleApiClient, this);
+        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, (com.google.android.gms.location.LocationListener) this);
     }
 
     private void displayLocation() {
