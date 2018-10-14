@@ -58,7 +58,7 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
     private LocationCallback mLocationCallback;
-    FusedLocationProviderClient mFusedLocationClient;
+//    FusedLocationProviderClient mFusedLocationClient;
 
     private static int UPDATE_INTERVAL = 5000;
     private static int FASTEST_INTERVAL = 3000;
@@ -104,7 +104,7 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
 
         setupLocation();
 
-        try {
+        /*try {
             mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
             mFusedLocationClient.getLastLocation()
                     .addOnSuccessListener(this, new OnSuccessListener<Location>() {
@@ -133,7 +133,7 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
             ex.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
 
     } // end of onCreate
 
@@ -197,16 +197,17 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
             }, MY_PERMISSION_REQUEST_CODE);
         }
         else {
-            if (checkPlayServices()) {
+            /*if (checkPlayServices()) {
                 buildGoogleApiClient();
                 createLocationRequest();
                 if (locationSwitch.isChecked()) {
                     displayLocation();
                 }
-            }
+            }*/
+            LocationServices.FusedLocationApi.requestLocationUpdates(GoogleApiClient, mLocationRequest, this);
         }
 
-        mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, null);
+//        mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, null);
 
     } // end of startLocationUpdates
 
@@ -217,7 +218,8 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
         {
             return;
         }
-        mFusedLocationClient.removeLocationUpdates(mLocationCallback);
+//        mFusedLocationClient.removeLocationUpdates(mLocationCallback);
+        LocationServices.FusedLocationApi.removeLocationUpdates(GoogleApiClient, this);
     }
 
     private void displayLocation() {
