@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -92,6 +93,12 @@ public class MainActivity extends AppCompatActivity {
         final String password = etPassword.getText().toString();
         final String confirmpass = etConfirmPassword.getText().toString();
         final String phone = etPhone.getText().toString();
+
+        Log.d("Name: ", name);
+        Log.d("\nEmail", email);
+        Log.d("\nPhone", phone);
+        Log.d("\nPassword", password);
+        Log.d("\nConfirm Password", confirmpass);
 
         //Set buttons
         dialog.setPositiveButton("Register", new DialogInterface.OnClickListener() {
@@ -218,8 +225,8 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
-                final AlertDialog waitingDialog = new SpotsDialog(MainActivity.this);
-                waitingDialog.show();
+//                final AlertDialog waitingDialog = new SpotsDialog(MainActivity.this);
+//                waitingDialog.show();
 
                 // Login
                 auth.signInWithEmailAndPassword(email, password)
