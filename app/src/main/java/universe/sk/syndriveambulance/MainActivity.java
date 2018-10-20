@@ -8,7 +8,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -108,23 +107,23 @@ public class MainActivity extends AppCompatActivity {
 //                startActivity(new Intent(MainActivity.this, WelcomeActivity.class));
 
                 // Check validation
-                if (TextUtils.isEmpty(name)) {
+                if (name.isEmpty()) {
                     Snackbar.make(rootLayout, "Please enter your Name", Snackbar.LENGTH_SHORT).show();
                     return;
                 }
-                if (TextUtils.isEmpty(email)) {
+                if (email.isEmpty()) {
                     Snackbar.make(rootLayout, "Please enter your Email Address", Snackbar.LENGTH_SHORT).show();
                     return;
                 }
-                if (TextUtils.isEmpty(phone)) {
+                if (phone.isEmpty()) {
                     Snackbar.make(rootLayout, "Please enter your Phone Number", Snackbar.LENGTH_SHORT).show();
                     return;
                 }
-                if (TextUtils.isEmpty(password)) {
+                if (password.isEmpty()) {
                     Snackbar.make(rootLayout, "Please enter your Password", Snackbar.LENGTH_SHORT).show();
                     return;
                 }
-                if (TextUtils.isEmpty(confirmpass)) {
+                if (confirmpass.isEmpty()) {
                     Snackbar.make(rootLayout, "Please confirm your Password", Snackbar.LENGTH_SHORT).show();
                     return;
                 }
@@ -216,11 +215,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, WelcomeActivity.class));
 
                 // Check validation
-                if (TextUtils.isEmpty(email)) {
+                if (email.isEmpty()) {
                     Snackbar.make(rootLayout, "Please enter your Email Address", Snackbar.LENGTH_SHORT).show();
                     return;
                 }
-                if (TextUtils.isEmpty(password)) {
+                if (password.isEmpty()) {
                     Snackbar.make(rootLayout, "Please enter your Password", Snackbar.LENGTH_SHORT).show();
                     return;
                 }

@@ -13,6 +13,7 @@
     <color name="red">#D10202</color>
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
+    <color name="yellow">#FFEA03</color>
     <color name="fab_background">#FFEA03</color>
     <color name="divider">#BDBDBD</color>
     <color name="scrollbar">#546E7A</color>
