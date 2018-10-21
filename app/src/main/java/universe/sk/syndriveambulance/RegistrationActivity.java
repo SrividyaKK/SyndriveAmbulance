@@ -17,7 +17,7 @@ import universe.sk.syndriveambulance.Model.User;
 public class RegistrationActivity extends AppCompatActivity {
 
     private EditText etName, etEmail, etPhone, etPassword, etConfirmPassword;
-    private Button btnRegister;
+    private Button btnRegisterDriver;
     private TextView tvExist;
     private FirebaseAuth firebaseAuth;
     String name, email, phone, password;
@@ -31,7 +31,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        btnRegister.setOnClickListener(new View.OnClickListener() {
+        btnRegisterDriver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (validate()) {

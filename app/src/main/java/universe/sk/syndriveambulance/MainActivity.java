@@ -1,38 +1,38 @@
 package universe.sk.syndriveambulance;
 
 import android.content.Context;
-import android.content.DialogInterface;
+//import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
+//import android.support.annotation.NonNull;
+//import android.support.design.widget.Snackbar;
+//import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
+//import android.util.Log;
+//import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RelativeLayout;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.rengwuxian.materialedittext.MaterialEditText;
-import dmax.dialog.SpotsDialog;
+//import android.widget.RelativeLayout;
+//import com.google.android.gms.tasks.OnFailureListener;
+//import com.google.android.gms.tasks.OnSuccessListener;
+//import com.google.firebase.auth.AuthResult;
+//import com.google.firebase.auth.FirebaseAuth;
+//import com.google.firebase.database.DatabaseReference;
+//import com.google.firebase.database.FirebaseDatabase;
+//import com.rengwuxian.materialedittext.MaterialEditText;
+//import dmax.dialog.SpotsDialog;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
-import universe.sk.syndriveambulance.Model.User;
+//import universe.sk.syndriveambulance.Model.User;
 
 public class MainActivity extends AppCompatActivity {
 
     Button btnLogin, btnRegister;
-    RelativeLayout rootLayout;
+//    RelativeLayout rootLayout;
 
-    FirebaseAuth auth;
-    FirebaseDatabase db;
-    DatabaseReference users;
+//    FirebaseAuth auth;
+//    FirebaseDatabase db;
+//    DatabaseReference users;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -50,28 +50,42 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // init firebase
-        auth = FirebaseAuth.getInstance();
-        db = FirebaseDatabase.getInstance();
-        users = db.getReference("Users");
+//        auth = FirebaseAuth.getInstance();
+//        db = FirebaseDatabase.getInstance();
+//        users = db.getReference("Users");
         setupUIViews();
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showRegisterDialog();
+                startActivity(new Intent(MainActivity.this, RegistrationActivity.class));
             }
         });
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showLoginDialog();
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
             }
         });
 
+        /*btnRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showRegisterDialog();
+            }
+        });*/
+
+        /*btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showLoginDialog();
+            }
+        });*/
+
     } // end of onCreate
 
-    private void showRegisterDialog() {
+    /*private void showRegisterDialog() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setTitle("REGISTER ");
 //        dialog.setMessage("Please use Email to register");
@@ -98,9 +112,9 @@ public class MainActivity extends AppCompatActivity {
         Log.d("\nPhone", phone);
         Log.d("\nPassword", password);
         Log.d("\nConfirm Password", confirmpass);
-
+*/
         //Set buttons
-        dialog.setPositiveButton("Register", new DialogInterface.OnClickListener() {
+        /*dialog.setPositiveButton("Register", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -184,8 +198,8 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
 
     } // end of showRegisterDialog
-
-    private void showLoginDialog() {
+*/
+    /*private void showLoginDialog() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setTitle("LOGIN ");
         //dialog.setMessage("Please sign-in using Email");
@@ -259,11 +273,11 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
 
     } // end of showLoginDialog
-
+*/
     private void setupUIViews() {
         btnLogin = findViewById(R.id.btnLogin);
         btnRegister = findViewById(R.id.btnRegister);
-        rootLayout = findViewById(R.id.rootLayout);
+//        rootLayout = findViewById(R.id.rootLayout);
     }
 
 } // end of MainActivity
