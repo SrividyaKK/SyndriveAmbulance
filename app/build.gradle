@@ -41,9 +41,10 @@ dependencies {
     implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
     implementation 'com.github.d-max:spots-dialog:1.1@aar'
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.4.0'
     implementation 'com.google.firebase:firebase-core:16.0.4'
     implementation 'com.google.firebase:firebase-database:16.0.3'
-    implementation 'com.google.firebase:firebase-auth:16.0.4'
+    implementation 'com.google.firebase:firebase-auth:16.0.5'
     implementation 'com.firebase:geofire-android:2.3.1' //geofire - firebase geolocation service
 }
 
