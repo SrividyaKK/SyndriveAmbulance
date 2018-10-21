@@ -1,5 +1,7 @@
 package universe.sk.syndriveambulance;
 
+import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,6 +10,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -39,7 +44,27 @@ public class RegistrationActivity extends AppCompatActivity {
                     String user_password = etPassword.getText().toString().trim();
 
                     //store in firebase
+                    firebaseAuth.createUserWithEmailAndPassword(user_email, user_password)
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        addUser();
+                                        finish();
+                                        startActivity(new Intent(RegistrationActivity.this, WelcomeActivity.class));
+                                        Toast.makeText(RegistrationActivity.this, "Authentication Successful!", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else
+                                        Toast.makeText(RegistrationActivity.this, "Authentication Failed!", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                 }
+            }
+        });
+        tvExist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RegistrationActivity.this, LoginActivity.class));
             }
         });
 
@@ -51,6 +76,8 @@ public class RegistrationActivity extends AppCompatActivity {
         etPhone = findViewById(R.id.etPhone);
         etPassword = findViewById(R.id.etPassword);
         etConfirmPassword = findViewById(R.id.etConfirmPassword);
+        btnRegisterDriver = findViewById(R.id.btnRegisterDriver);
+        tvExist = findViewById(R.id.tvExist);
     }
 
     private boolean validate() {
@@ -81,7 +108,7 @@ public class RegistrationActivity extends AppCompatActivity {
 //        user = new Userinfo(name,email,date,bloodgrp,emname1,emnum1,emname2,emnum2,emname3,emnum3);
 //        databaseusers.setValue(user);
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference databaseusers = firebaseDatabase.getReference("users");
+        DatabaseReference databaseusers = firebaseDatabase.getReference("drivers");
         User user = new User(email, name, phone);
 //        user.setName(name);
 //        user.setEmail(email);
